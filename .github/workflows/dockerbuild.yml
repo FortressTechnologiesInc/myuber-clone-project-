@@ -38,7 +38,7 @@ jobs:
       # run: yarn dev &
 
     - name: Build Docker image
-      run: docker build -t iscanprint/uberFE:2.1 .
+      run: docker build -t iscanprint/uberfez:2.1 .
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
@@ -47,7 +47,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
           
     - name: Push Docker image
-      run: docker push iscanprint/uberFE:2.1
+      run: docker push iscanprint/uberfez:2.1
 
     - name: Run Docker container
-      run: docker run -d -p 8080:8080 --name uberFE iscanprint/uberFE:2.1
+      run: docker run -d -p 8080:8080 --name uberfez iscanprint/uberfez:2.1
