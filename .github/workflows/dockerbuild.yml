@@ -1,0 +1,53 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:20.10.16
+        options: --privileged
+        ports:
+          - 8080:8080
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '21'
+
+    - name: Install dependencies
+      run: npm install
+      # If you use yarn, uncomment the next line and comment out the npm line above
+      run: yarn install
+
+    - name: Run development server
+      run: npm run dev &
+      # If you use yarn, uncomment the next line and comment out the npm line above
+      run: yarn dev &
+
+    - name: Build Docker image
+      run: docker build -t iscanprint/uberFE:2.1 .
+
+     - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+    - name: Push Docker image
+      run: docker push iscanprint/uberFE:2.1
+
+    - name: Run Docker container
+      run: docker run -d -p 8080:8080 --name uberFE iscanprint/uberFE:2.1
