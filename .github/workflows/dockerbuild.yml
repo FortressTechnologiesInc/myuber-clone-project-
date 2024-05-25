@@ -30,21 +30,21 @@ jobs:
     - name: Install dependencies
       run: npm install
       # If you use yarn, uncomment the next line and comment out the npm line above
-      run: yarn install
+      # run: yarn install
 
     - name: Run development server
       run: npm run dev &
       # If you use yarn, uncomment the next line and comment out the npm line above
-      run: yarn dev &
+      # run: yarn dev &
 
     - name: Build Docker image
       run: docker build -t iscanprint/uberFE:2.1 .
 
-     - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
           
     - name: Push Docker image
       run: docker push iscanprint/uberFE:2.1
