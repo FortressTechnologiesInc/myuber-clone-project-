@@ -50,4 +50,4 @@ jobs:
       run: docker push iscanprint/uberfez:2.1
 
     - name: Run Docker container
-      run: docker run -d -p 8080:8080 --name uberfez iscanprint/uberfez:2.1
+      run: docker run -d -p 3000:3000 --name uberfez iscanprint/uberfez:2.1
